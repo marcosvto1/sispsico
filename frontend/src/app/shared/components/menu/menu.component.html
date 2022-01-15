@@ -1,0 +1,22 @@
+<ul class="nav flex-column text-white">
+  <li class="nav-item" *ngFor="let item of items" >
+
+    <a *ngIf="item.children.length == 0"  class="nav-link text-white d-flex" (click)="handleLink(item.link)">
+      <span><i *ngIf="item.icon" class="mt-1 {{ item.icon }} mr-2"></i> {{ item.title }}</span>
+    </a>
+
+    <a *ngIf="item.children.length > 0"  class="nav-link text-white d-flex justify-content-between" (click)="item.expanded = !item.expanded">
+
+      <span><i *ngIf="item.icon" class="mt-1 {{ item.icon }} mr-2"></i> {{ item.title }}</span>
+      <i *ngIf="item.expanded == false" class="{{ config.iconOpen }} mt-1"></i>
+      <i *ngIf="item.expanded == true" class="{{ config.iconClose }} mt-1"></i>
+    </a>
+
+    <ul *ngIf="item.children.length > 0 && item.expanded " class="nav flex-column text-white" style="background-color: #11151e">
+      <li class="nav-item" *ngFor="let itemChild of item.children"  (click)="handleLink(itemChild.link)">
+       <a class="nav-link text-white"> > {{ itemChild.title }}</a>
+      </li>
+    </ul>
+
+  </li>
+</ul>

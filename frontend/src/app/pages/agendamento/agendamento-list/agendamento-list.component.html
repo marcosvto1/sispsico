@@ -1,0 +1,132 @@
+<div class="page-wrapper">
+  <div class="content">
+      <div class="row">
+          <div class="col-sm-4 col-3">
+              <h4 class="page-title">Agenda</h4>
+          </div>
+          <div class="col-sm-8 col-9 text-right m-b-20">
+            <div class="form-group form-focus select-focus"  *ngIf="currentUser.user.papel != 'P' || currentUser.user.admin">
+              <label class="focus-label">Psicólogos</label>
+              <select class="form-control floating" (change)="handleChangeUsuario($event.target.value)">
+                <option value="todos">Todos</option>
+                <option value="{{ item.id }}" *ngFor="let item of usuarios" >{{ item.nome }}</option>
+              </select>
+            </div>
+            <button routerLink="add" class="btn btn-primary float-right btn-rounded"><i class="fa fa-plus"></i> Novo</button>
+          </div>
+      </div>
+      <div class="row">
+          <div class="colsm-12">
+            <full-calendar
+                #calendar
+                defaultView="timeGridWeek"
+                defaultEventMinutes="30"
+                [locale]="localep"
+                [minTime]="'07:00:00'"
+                [maxTime]="'18:00:00'"
+                [header]="{
+                left: 'prev,next today',
+                center: 'title',
+                right: 'addEventButton, dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                }"
+                [businessHours]="true"
+                [selectable]="true"
+                [selectConstraint]="{'start': '07:00', 'end': '18:00'}"
+                [plugins]="calendarPlugins"
+                [events]="events"
+                deepChangeDetection="true"
+                [allDaySlot]="false"
+                (select)="handleSelectEvent($event, tplModalAddAgenda)"
+                (eventClick)="handleEventClick($event, tplModalVerAgenda)"
+            ></full-calendar>
+          </div>
+      </div>
+  </div>
+
+  <ng-template #tplModalAddAgenda>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Agendar</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>de</td>
+            <td>{{ this.dataSelecionadaInicio | date: 'yyyy/MM/dd' }} as <b>{{ this.dataSelecionadaInicio | date: 'hh:mm' }}</b></td>
+          </tr>
+          <tr>
+            <td>Até</td>
+            <td>{{ this.dataSelecionadaFinal | date: 'yyyy/MM/dd hh:mm' }} as <b>{{ this.dataSelecionadaFinal | date: 'hh:mm' }}</b></td>
+          </tr>
+        </tbody>
+      </table>
+      <br/><button class="btn btn-lg btn-block btn-primary" (click)="agendar()">Agendar</button>
+    </div>
+  </ng-template>
+
+  <ng-template #tplModalVerAgenda>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Agenda</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th>Responsável Atendente</th>
+            <td>{{ this.agendaSelecionada.usuario.nome }}</td>
+          </tr>
+          <tr>
+            <th>Paciente</th>
+            <td>{{ this.agendaSelecionada.nome }}</td>
+          </tr>
+          <tr *ngIf="this.agendaSelecionada.responsavel" >
+            <th>Responsável</th>
+            <td>{{ this.agendaSelecionada.responsavel }}</td>
+          </tr>
+          <tr class="bg-light">
+            <td colspan="2" align="center">Contato</td>
+          </tr>
+          <tr *ngIf="this.agendaSelecionada.telefone != ''" >
+            <th>Telefone</th>
+            <td>{{ this.agendaSelecionada.telefone }}</td>
+          </tr>
+          <tr *ngIf="this.agendaSelecionada.celular != ''">
+            <th>Celular</th>
+            <td>{{ this.agendaSelecionada.celular }}</td>
+          </tr>
+          <tr class="bg-light">
+            <td colspan="2" align="center">Agendamento</td>
+          </tr>
+          <tr>
+            <td>de</td>
+            <td>{{ this.agendaSelecionada.data_inicio | date: 'yyyy/MM/dd' }} as <b>{{ this.agendaSelecionada.data_inicio | date: 'hh:mm' }}</b></td>
+          </tr>
+          <tr>
+            <td>Até</td>
+            <td>{{ this.agendaSelecionada.data_final | date: 'yyyy/MM/dd hh:mm' }} as <b>{{ this.agendaSelecionada.data_final | date: 'hh:mm' }}</b></td>
+          </tr>
+          <tr>
+            <td>Situação</td>
+            <td>
+              <span *ngIf="this.agendaSelecionada.situacao == 'R'"  [ngClass]="{'alert alert-secondary': this.agendaSelecionada.situacao == 'R'}" >Reservado</span>
+              <span *ngIf="this.agendaSelecionada.situacao == 'C'"  [ngClass]="{'alert alert-success': this.agendaSelecionada.situacao == 'C'}" >Confirmado</span>
+              <span *ngIf="this.agendaSelecionada.situacao == 'A'"  [ngClass]="{'alert alert-primary': this.agendaSelecionada.situacao == 'A'}" >Atendido</span>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+      <button *ngIf="this.agendaSelecionada.situacao == 'R'" class="btn btn-lg btn-block btn-danger" (click)="cancelarAgendamento()">Cancelar Agendamento</button>
+      <button *ngIf="this.agendaSelecionada.situacao == 'C' && (currentUser.user.papel == 'A' || currentUser.user.papel == 'P') " class="btn btn-lg btn-block btn-primary" (click)="confirmarAtendimento()">Confirmar Atendentimento</button>
+      <button *ngIf="this.agendaSelecionada.situacao == 'R'"  class="btn btn-lg btn-block btn-success" (click)="confirmarComparecimento()" >Confirmar Comparacimento</button>
+    </div>
+  </ng-template>
+
+</div>      

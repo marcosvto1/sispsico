@@ -1,0 +1,84 @@
+<div class="account-wrapper my-5">
+  <div class="account-page">
+    <div class="account-center">
+      <div class="account-box">
+          <form class="form-signin" [formGroup]="formLogin" (ngSubmit)="submitForm()">
+              <div class="account-logo">
+                  <img src="assets/img/logomarca.png"><a></a>
+              </div>
+
+              <div class="alert alert-danger" *ngIf="erros.length > 0">
+                <p *ngFor="let item of erros" >{{ item }}</p>
+              </div>
+
+              <div class="form-group">
+                  <label>Usuário</label>
+                  <input
+                  type="text"
+                  formControlName="usuario"
+                  [ngClass]="{
+                    'is-invalid':
+                      formLogin.get('usuario').invalid &&
+                      formLogin.get('usuario').touched
+                  }"
+                  class="form-control custom-form-control"
+                  id="usuario"
+                  placeholder="Ex: usuario"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    formLogin.get('usuario').invalid &&
+                    formLogin.get('usuario').touched
+                  "
+                >
+                  <div *ngIf="formLogin.get('usuario').errors?.required">
+                    Campo Obrigatório
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                  <label>Senha</label>
+                  <input
+                  type="password"
+                  formControlName="password"
+                  [ngClass]="{
+                    'is-invalid':
+                      formLogin.get('password').invalid &&
+                      formLogin.get('password').touched
+                  }"
+                  class="form-control custom-form-control"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="
+                    formLogin.get('password').invalid &&
+                    formLogin.get('password').touched
+                  "
+                >
+                  <div *ngIf="formLogin.get('password').errors?.required">
+                    Campo Obrigatório
+                  </div>
+                </div>
+              </div>
+              
+              <!-- TODO -->
+              <!-- 
+              <div class="form-group text-right">
+                  <a href="forgot-password.html">Recuperar Senha</a>
+              </div>
+              -->
+
+
+              <div class="form-group text-center">
+                  <button type="submit" class="btn btn-primary account-btn" [disabled]="loading">Login</button>
+              </div>
+
+          </form>
+          <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+
+      </div>
+    </div>
+  </div>
+</div>

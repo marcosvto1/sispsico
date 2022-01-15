@@ -1,0 +1,13 @@
+INSERT INTO `TIPO_PAGAMENTO` (`id`, `codigo`, `descricao`, `deleted_at`) VALUES (NULL, '01', 'Dinheiro', NULL), (NULL, '02', 'Cheque', NULL), (NULL, '03', 'Cartao', NULL), (NULL, '04', 'Transferência', NULL)
+
+INSERT INTO `TIPO_RECEBIMENTO` (`id`, `codigo`, `descricao`, `deleted_at`) VALUES (NULL, '01', 'Dinheiro', NULL), (NULL, '02', 'Cheque', NULL), (NULL, '03', 'Cartao', NULL), (NULL, '04', 'Transferência', NULL)
+
+
+INSERT INTO `STATUS_PARCELA` (`id`,`situacao`,`descricao`,`procedimento`) VALUES (1,'01','Aberto',NULL);
+INSERT INTO `STATUS_PARCELA` (`id`,`situacao`,`descricao`,`procedimento`) VALUES (2,'02','Quitado',NULL);
+INSERT INTO `STATUS_PARCELA` (`id`,`situacao`,`descricao`,`procedimento`) VALUES (3,'03','Quitado Parcial',NULL);
+INSERT INTO `STATUS_PARCELA` (`id`,`situacao`,`descricao`,`procedimento`) VALUES (4,'04','Vencido',NULL);
+INSERT INTO `STATUS_PARCELA` (`id`,`situacao`,`descricao`,`procedimento`) VALUES (5,'05','Renegociado',NULL);
+
+
+INSERT INTO `USUARIO` (`id`,`nome`,`email`,`usuario`,`password`,`logradouro`,`papel`,`numero`,`cidade`,`ativo`,`admin`,`deleted_at`,`bairro`) VALUES (1,'ADMINISTRADOR','administrador_sistema@gmail.com','admin','$2y$10$1QzQMrWHVTxwWjKEfFxzT.pGnXjyImBAq7/5T7fhwoDR6OEBw5umW',NULL,'A',NULL,NULL,1,1,NULL,NULL);

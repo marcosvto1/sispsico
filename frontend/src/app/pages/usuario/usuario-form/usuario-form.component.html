@@ -1,0 +1,212 @@
+<div class="page-wrapper">
+  <div class="content">
+      <div class="row">
+          <div class="col-lg-8 offset-lg-2">
+              <h4 class="page-title">{{ this.currentAction == 'edit' ?  'Editar' : 'Novo' }} Usuário</h4>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <form [formGroup]="resourceForm" (ngSubmit)="onSubmit()">
+               <div class="row">
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                          <label>Nome <span class="text-danger">*</span></label>
+                          <input class="form-control" type="text" formControlName="nome"
+                          [ngClass]="{
+                            'is-invalid':
+                              resourceForm.get('nome').invalid &&
+                              resourceForm.get('nome').touched
+                          }"
+                          >
+                          <div
+                          class="invalid-feedback"
+                          *ngIf="
+                            resourceForm.get('nome').invalid &&
+                            resourceForm.get('nome').touched
+                          "
+                          >
+                            <div *ngIf="resourceForm.get('nome').errors.required">
+                              Campo Obrigatório
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Email <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" formControlName="email"
+                        [ngClass]="{
+                          'is-invalid':
+                            resourceForm.get('email').invalid &&
+                            resourceForm.get('email').touched
+                        }"
+                        >
+                        <div
+                        class="invalid-feedback"
+                        *ngIf="
+                          resourceForm.get('email').invalid &&
+                          resourceForm.get('email').touched
+                        "
+                        >
+                          <div *ngIf="resourceForm.get('email').errors.required">
+                            Campo Obrigatório
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Usuário <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" formControlName="usuario"
+                        [ngClass]="{
+                          'is-invalid':
+                            resourceForm.get('usuario').invalid &&
+                            resourceForm.get('usuario').touched
+                        }"
+                        >
+                        <div
+                        class="invalid-feedback"
+                        *ngIf="
+                          resourceForm.get('usuario').invalid &&
+                          resourceForm.get('usuario').touched
+                        "
+                        >
+                          <div *ngIf="resourceForm.get('usuario').errors.required">
+                            Campo Obrigatório
+                          </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                      <label>Senha <span class="text-danger">*</span></label>
+                      <input class="form-control" type="password" formControlName="password"
+                      [ngClass]="{
+                        'is-invalid':
+                          resourceForm.get('password').invalid &&
+                          resourceForm.get('password').touched
+                      }"
+                      >
+                      <div
+                      class="invalid-feedback"
+                      *ngIf="
+                        resourceForm.get('password').invalid &&
+                        resourceForm.get('password').touched
+                      "
+                      >
+                        <div *ngIf="resourceForm.get('password').errors.required">
+                          Campo Obrigatório
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                      <label>Confirmar Senha <span class="text-danger">*</span></label>
+                      <input class="form-control" type="password" formControlName="confirm_password"
+                      [ngClass]="{
+                        'is-invalid':
+                          resourceForm.get('confirm_password').invalid &&
+                          resourceForm.get('confirm_password').touched
+                      }"
+                      >
+                      <div
+                      class="invalid-feedback"
+                      *ngIf="
+                        resourceForm.get('confirm_password').invalid &&
+                        resourceForm.get('confirm_password').touched
+                      "
+                      >
+                        <div *ngIf="resourceForm.get('confirm_password').errors.required">
+                          Campo Obrigatório
+                        </div>
+
+                      </div>
+
+                      <div class="text-danger" *ngIf="resourceForm.hasError('passwordNotEqual')">
+                        As senhas são diferentes. Eles devem ser iguais!
+                      </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Papel de Atividade <span class="text-danger">*</span></label>
+                    <select class="form-control" 
+                    [ngClass]="{
+                      'is-invalid':
+                        resourceForm.get('papel').invalid &&
+                        resourceForm.get('papel').touched
+                    }"
+                    formControlName="papel">
+                      <option value="M">M - Médico</option>
+                      <option value="P">P - Psicólogo</option>
+                      <option value="S">S - Secretária</option>
+                    </select>
+                    <div
+                    class="invalid-feedback"
+                    *ngIf="
+                      resourceForm.get('papel').invalid &&
+                      resourceForm.get('papel').touched
+                    "
+                    >
+                      <div *ngIf="resourceForm.get('papel').errors.required">
+                        Campo Obrigatório
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Administrador?</label>
+                    <select class="form-control" formControlName="admin">
+                      <option value="0">Não</option>
+                      <option value="1">Sim</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Logradouro</label>
+                    <input class="form-control" formControlName="logradouro">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Número</label>
+                    <input class="form-control" formControlName="numero">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Bairro</label>
+                    <input class="form-control" formControlName="bairro">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Cidade</label>
+                    <input class="form-control" formControlName="cidade">
+                  </div>
+                </div>
+
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label>Ativo</label>
+                    <select class="form-control" formControlName="ativo">
+                      <option value="1">Sim</option>
+                      <option value="0">Não</option>
+                    </select>
+                  </div>
+                </div>
+                <br/>
+                <div class="col-sm-12 m-t-20 text-center">
+                  <button class="btn btn-primary submit-btn" [disabled]="resourceForm.invalid">Salvar Usuário</button>
+                </div>
+               </div>
+            </form>
+        </div>
+      </div>        
+  </div>
+</div>

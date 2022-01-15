@@ -1,0 +1,184 @@
+<div class="page-wrapper">
+  <div class="content">
+      <div class="row">
+          <div class="col-sm-4 col-3">
+              <h4 class="page-title">Faturas</h4>
+          </div>
+          <div class="col-sm-8 col-9 text-right m-b-20">
+              <button routerLink="add" class="btn btn-primary float-right btn-rounded">
+                <i class="fa fa-plus"></i> Nova</button>
+          </div>
+      </div>
+      
+      <div class="row filter-row">
+
+        <div class="col-sm-6 col-md-3">        
+          <div class="from-group">
+            <label>Paciente</label>
+            <div class="input-group">
+
+              <input type="text" 
+              class="form-control"
+              readonly
+              placeholder="" 
+              [(ngModel)]="filtroJson.paciente"
+              (click)="gerarModalPaciente()"
+              >
+              <div class="input-group-append">
+                  <button class="btn btn-link" type="button"  (click)="gerarModalPaciente()">
+                    <i class="fa fa-search"></i>
+                  </button>
+              </div>
+            </div>
+          </div>
+       
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label>Inicio <span class="text-danger">*</span></label>
+            <input class="form-control"                     
+            bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+            [(ngModel)]="filtroJson.dataInicio"
+            >
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label>Fim <span class="text-danger">*</span></label>
+            <input class="form-control"                     
+            bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+            [(ngModel)]="filtroJson.dataFinal">
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group">
+            <label>Situação</label>
+            <select class="form-control" [(ngModel)]="filtroJson.situacao">
+              <option value="PR">Pagamento Realizado</option>
+              <option value="AP">Aguardando Pagamento</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+          <button class="btn btn-success btn-block" (click)="filtrar()" > Filtrar </button>
+        </div> 
+        <div class="col-sm-6 col-md-3">
+          <button class="btn btn-secondary btn-block" (click)="limparFiltro()" > Limpar Filtro </button>
+        </div>      
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-12">
+          <div class="mt-2">
+            <p class="text-success">Total de Faturas Pagas <b>{{ this.totalFaturaPagas | currency: 'BRL'}}</b></p>
+            <p class="text-danger">Total de Faturas Pendentes: <b>{{ this.totalFaturaPendentes | currency: 'BRL'}}</b> </p>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped custom-table" >
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Paciente</th>
+                        <th>Data Fatura</th>
+                        <th>Data Vencimento</th>
+                        <th>Valor (R$)</th>
+                        <th>Desconto (%)</th>
+                        <th>Valor Fatura R$</th>
+                        <th>Situação</th>
+                        <th class="text-right">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of listaResource" >
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.paciente.nome }}</td>
+                    <td>{{ item.data_fatura | date: 'yyyy/MM/dd' }}</td>
+                    <td>{{ item.data_vencimento | date: 'yyyy/MM/dd' }}</td>
+                    <td>{{ item.valor_total | currency: 'BRL' }}</td>
+                    <td>{{ item.desconto }}</td>
+                    <td>{{ item.valor_final | currency: 'BRL' }}</td>
+                    <td>
+                      <span *ngIf="item.situacao == 'AP'" class="custom-badge status-red">Aguardando Pagamento</span>
+                      <span *ngIf="item.situacao == 'PP'" class="custom-badge status-blue">Parcialmente Pago</span>
+                      <span *ngIf="item.situacao == 'PR'" class="custom-badge status-green">Pagamento Realizado</span>
+                    </td>                    
+                    <td class="text-right">
+                      <div class="dropdown dropdown-action">
+                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                          <div class="dropdown-menu dropdown-menu-right">
+                              <a class="dropdown-item" [routerLink]="[item.id, 'edit']"
+                                                      ><i class="fa fa-pencil m-r-5"></i> Editar</a>
+                              <a class="dropdown-item" 
+                                (click)="remove(item.id)" data-toggle="modal" data-target="#delete_employee"><i class="fa fa-trash-o m-r-5"></i> Remover</a>
+                              
+                              <a class="dropdown-item" 
+                                (click)="gerarModalSituacaoFatura(template, item)">Atualizar Situação</a>
+                              <a class="dropdown-item">Reenviar Fatura</a>
+                            </div>
+                     
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+          </div>
+          <app-paginate *ngIf="total > 0" [type]="'list'" [page]="page" [total]="total" (pageChanged)="pageChanged($event)" ></app-paginate>
+
+        </div>
+      </div>
+  </div>
+</div>      
+
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Atualizar Situação da Fatura</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmitFormSituacao()" >
+      <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <label>Situação</label>          
+          <select class="form-control" formControlName="situacao">
+            <option value="PR">Pagamento Realizado</option>
+            <option value="AP">Aguardando Pagamento</option>
+          </select>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6" *ngIf="form.get('situacao').value == 'PP' || form.get('situacao').value == 'PR'" >
+          <div class="form-group">
+            <label>Forma de Pagamento</label>
+            <select class="form-control" formControlName="forma_pagamento">
+              <option value="dinheiro" selected>Dinheiro</option>
+              <option value="cartao_credito">Cartão de Credito</option>
+              <option value="cheque">Cheque</option>
+              <option value="plano_saude">Plano de Saúde</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6" *ngIf="form.get('situacao').value == 'PP' || form.get('situacao').value == 'PR'" >
+          <label>Informe o Valor que foi Pago</label>
+          <input class="form-control" currencyMask formControlName="valor_pago">
+        </div>
+
+        <div class="col-sm-12 col-md-12 mt-4" >
+          <button type="button" class="btn btn-secondary mr-1" (click)="modalRef.hide()">Fechar</button>
+          <button class="btn btn-primary">Confirmar</button>
+        </div>
+      </div>
+     </form>
+
+  </div>
+</ng-template>

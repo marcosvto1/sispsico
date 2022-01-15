@@ -1,0 +1,114 @@
+<div class="page-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <h4 class="page-title">Agenda</h4>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-8 offset-lg-2">
+             <form [formGroup]="resourceForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Descrição <span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" formControlName="descricao"
+                            [ngClass]="{
+                              'is-invalid':
+                                resourceForm.get('descricao').invalid &&
+                                resourceForm.get('descricao').touched
+                            }"
+                            >
+                            <div
+                            class="invalid-feedback"
+                            *ngIf="
+                              resourceForm.get('descricao').invalid &&
+                              resourceForm.get('descricao').touched
+                            "
+                            >
+                              <div *ngIf="resourceForm.get('descricao').errors.required">
+                                Campo Obrigatório
+                              </div>
+                          </div>
+                        </div>            
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                          <label>Dias Disponivel  <span class="text-danger">*</span></label>
+                          <ng-select2 [data]="dropdownList" name="dias_disponivel" formControlName="dias_disponivel" [options]="options"></ng-select2>                          
+                          <div
+                          class="invalid-feedback"
+                          *ngIf="
+                            resourceForm.get('dias_disponivel').invalid &&
+                            resourceForm.get('dias_disponivel').touched
+                          "
+                          >
+                            <div *ngIf="resourceForm.get('dias_disponivel').errors.required">
+                              Campo Obrigatório
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Hora Inicial <span class="text-danger">*</span></label>
+                            <input class="form-control" type="time" formControlName="hora_inicial"
+                            [ngClass]="{
+                              'is-invalid':
+                                resourceForm.get('hora_inicial').invalid &&
+                                resourceForm.get('hora_inicial').touched
+                            }"
+                            >
+                            <div
+                            class="invalid-feedback"
+                            *ngIf="
+                              resourceForm.get('hora_inicial').invalid &&
+                              resourceForm.get('hora_inicial').touched
+                            "
+                            >
+                              <div *ngIf="resourceForm.get('hora_inicial').errors.required">
+                                Campo Obrigatório
+                              </div>
+                          </div>
+                        </div>      
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Hora Final <span class="text-danger">*</span></label>
+                            <input class="form-control" type="time" formControlName="hora_final"
+                            [ngClass]="{
+                              'is-invalid':
+                                resourceForm.get('hora_final').invalid &&
+                                resourceForm.get('hora_final').touched
+                            }"
+                            >
+                            <div
+                            class="invalid-feedback"
+                            *ngIf="
+                              resourceForm.get('hora_final').invalid &&
+                              resourceForm.get('hora_final').touched
+                            "
+                            >
+                              <div *ngIf="resourceForm.get('hora_final').errors.required">
+                                Campo Obrigatório
+                              </div>
+                          </div>
+                        </div>      
+                    </div>
+                    <div class="col-sm-6">
+                      <label>Selecione os atendentes </label>                     
+                      <ng-select2 [data]="atendentes" formControlName="listaAtendente" name="listaAtendente" [options]="options"></ng-select2>                          
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 m-t-20 text-center">
+                        <button class="btn btn-primary submit-btn" [disabled]="resourceForm.invalid">Salvar</button>
+                    </div>
+                </div>  
+             </form>
+          </div>
+        </div>
+    </div>
+</div>

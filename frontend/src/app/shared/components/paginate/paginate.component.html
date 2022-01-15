@@ -1,0 +1,20 @@
+<div *ngIf="type == 'simple'"  class="row justify-content-between">
+  <div>
+    <span>Página: {{ page }}</span> - <span>{{ pageCount }}</span>
+    <button class="btn" [disabled]="page == 1" (click)="handlePageBack()">Voltar</button>
+  </div>
+
+  <div>
+
+    <button class="btn ml-2" [disabled]="page == pageCount" (click)="handlePageNext()">Proximo</button>
+  </div>
+</div>
+
+<div *ngIf="type == 'list'" class="d-flex">
+  <pagination
+  nextText="Proximo"
+  previousText="Anterior"
+  [totalItems]="total"
+  [itemsPerPage]="itemsPerPage"
+  (pageChanged)="handlePageChanged($event)"></pagination>
+</div>

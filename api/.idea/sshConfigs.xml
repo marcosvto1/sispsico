@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="sispsico.tk" id="78252b04-0ad6-481f-bbba-ad5955d56d21" port="22" customName="sispisco" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="sispsico.tk" id="82b3e81f-b2d6-4006-8f08-1d7363ae4613" port="22" customName="sispisco" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="sispsico.tk" id="3e84ab70-0c09-4408-972a-2c0ae68cf1a3" port="22" customName="sispisco" nameFormat="CUSTOM" />
+    </configs>
+  </component>
+</project>

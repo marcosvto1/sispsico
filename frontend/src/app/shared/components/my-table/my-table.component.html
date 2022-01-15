@@ -1,0 +1,16 @@
+<p>my-table works!</p>
+<div>
+  <table class="table">
+    <thead>
+      <th *ngFor="let item of colunas">{{ item }}</th>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let item of dados">
+        <ng-container
+          *ngTemplateOutlet="tableItemTemplate; context: { $implicit: item }"
+        ></ng-container>
+      </ng-container>
+    </tbody>
+  </table>
+  <ul></ul>
+</div>

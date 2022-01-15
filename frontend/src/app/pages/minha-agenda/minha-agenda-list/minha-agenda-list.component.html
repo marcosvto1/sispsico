@@ -1,0 +1,44 @@
+<div class="page-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <h4 class="page-title">Agenda</h4>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-8 offset-lg-2">
+              <div *ngIf="agenda == null">
+                  <h2>Nenhuma agenda foi encontrada para você</h2>
+                 <br/>
+                  <button class="btn btn-primary" routerLink="add">Criar uma Agora</button>
+              </div>
+              <div class="card" *ngIf="agenda !== null">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Descrição</th>
+                        <td>{{ agenda.descricao }}</td>
+                    </tr>
+                    <tr>
+                        <th>Periodo de Atendendimento</th>
+                        <td>{{ agenda.hora_inicial }} - {{ agenda.hora_final }}</td>
+                    </tr>
+                    <tr>
+                        <th>Dias de Atendendimento</th>
+                        <td>
+                            <span class="custom-badge status-success" *ngFor="let item of days">{{ item.text }}&nbsp;</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Atendentes</th>
+                        <td>
+                            <span class="custom-badge status-primary" *ngFor="let item of agenda.listaAtendente">{{ item.atendente.usuario.nome }}&nbsp;</span>
+                        </td>
+                    </tr>
+                </table>
+
+                <button class="btn btn-primary" routerLink="{{ agenda.id }}/edit">Editar</button>
+              </div>
+          </div>
+        </div>
+    </div>
+</div>

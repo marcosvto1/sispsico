@@ -1,0 +1,88 @@
+<div class="page-wrapper">
+  <div class="content">
+    <div class="row">
+      <div class="col-sm-4 col-3">
+        <h4 class="page-title">Pagamentos</h4>
+      </div>
+      <div class="col-sm-8 col-9 text-right m-b-20">
+      </div>
+    </div>
+
+    <div class="row filter-row">
+      <div class="col-sm-6 col-md-3">
+        <div class="from-group">
+          <label>Paciente</label>
+          <div class="input-group">
+            <input type="text" class="form-control" readonly placeholder="Selecione o paciente"
+              (click)="gerarModalPaciente()" [(ngModel)]="filtroJson.paciente">
+
+            <div class="input-group-append">
+              <button class="btn btn-link" type="button" (click)="gerarModalPaciente()">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label>Inicio <span class="text-danger">*</span></label>
+          <input class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+            [(ngModel)]="filtroJson.dataInicio">
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+          <label>Fim <span class="text-danger">*</span></label>
+          <input class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+            [(ngModel)]="filtroJson.dataFinal">
+        </div>
+      </div>
+
+      <div class="col-md-3"></div>
+
+      <div class="col-sm-6 col-md-3">
+        <button class="btn btn-success btn-block" (click)="filtrar()"> Filtrar </button>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <button class="btn btn-secondary btn-block" (click)="limparFiltro()"> Limpar Filtro </button>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <div class="mt-2">
+          <p class="text-success">Total de Faturas Pagas <b>{{ this.totalFaturaPagas | currency: 'BRL'}}</b></p>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>Paciente</th>
+                <th>Data Pagamento</th>
+                <th>Valor Fatura R$</th>
+                <th>Form Pagamento</th>
+                <th>Valor Pago R$</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listaResource">
+                <td>{{ item.id }}</td>
+                <td>{{ item.paciente.nome }}</td>
+                <td>{{ item.data_pagamento | date: 'yyyy/MM/dd' }}</td>
+                <td>{{ item.valor_final | currency: 'BRL' }}</td>
+                <td>{{ domainFormPagamento(item.forma_pagamento) }}</td>
+                <td>{{ item.valor_pago | currency: 'BRL' }}</td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

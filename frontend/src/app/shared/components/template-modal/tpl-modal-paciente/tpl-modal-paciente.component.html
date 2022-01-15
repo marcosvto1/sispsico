@@ -1,0 +1,63 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Selecionar</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalHide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body" style="overflow-y: scroll; height: 400px;">
+
+  <div class=" d-flex mb-2 bg-white p-2" style=" width: 100%;">
+
+      <select class="form-control"  [(ngModel)]="filtro.campo">
+        <option [value]="item" *ngFor="let item of campos">{{
+          item
+        }}</option>
+      </select>
+
+      <input
+        class="form-control ml-1"
+        placeholder="Filtro"
+        [(ngModel)]="filtro.valor"
+      />
+
+      <button class="btn btn-primary ml-2" (click)="loadResources()" >
+        <i class="fa fa-search"></i>
+      </button>
+
+      <button class="btn btn-secondary ml-1">
+        <i class="fa fa-close"></i>
+      </button>
+
+  </div>
+
+  <table class="table table-striped">
+    <tbody>
+      <tr  *ngFor="let item of listaResource" >
+        <td><button [disabled]="item.ativo == 0" class="btn btn-secondary" (click)="onSelected.emit(item)">Selecionar</button></td>
+        <td>{{ item.id }}</td>
+        <td>{{ item.nome }}</td>
+        <td>{{ item.cpf | mask: '000.000.000-00' }}</td>
+        <td>
+          <span *ngIf="item.ativo === 1" class="custom-badge status-green">Ativo</span>
+          <span *ngIf="item.ativo === 0" class="custom-badge status-red">Inativo</span>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>
+<div class="modal-footer bg-light">
+  <div class="row">
+    <div class="col-md-12">
+      <app-paginate
+      [type]="'simple'"
+      [page]="page"
+      [total]="total"
+      [pageCount]="pageCount"
+      (pageNext)="pageNext($event)"
+      (pageBack)="pageBack($event)"
+      ></app-paginate>
+    </div>
+  </div>
+
+</div>

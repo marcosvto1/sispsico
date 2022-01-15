@@ -1,0 +1,120 @@
+<div class="container">
+  <div class="my-5 row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+            <div class="text-center">
+                <img src="assets/img/logo.png">
+            </div>
+          <div *ngFor="let erro of erros">
+             <p class="text-danger">* {{ erro }}</p>
+          </div>
+          <form [formGroup]="formRegister" (ngSubmit)="submitForm()">
+            <div class="form-group">
+              <label>Tipo de Pessoa</label>
+              <select class="form-control"
+                formControlName="tipo_pessoa"
+              >
+                <option value="j">Juridica</option>
+                <option value="f" disabled="true">Fisica</option>
+              </select>
+            </div>
+            <div class="form-group" *ngIf="formRegister.get('tipo_pessoa').value == 'f'"  >
+                <label for="cpf">CPF</label>
+                <input type="text"
+                formControlName="cnpj_cpf"
+                class="custom-form-control" id="cpf">
+                <span class="custom-form-control-ripple-line"></span>
+            </div>
+            <div class="form-group" *ngIf="formRegister.get('tipo_pessoa').value == 'j'" >
+                <label for="cnpj">CNPJ</label>
+                <input type="text"
+                mask="000.000.000/0000-00"
+                formControlName="cnpj_cpf"
+                class="custom-form-control form-control" id="cnpj"
+                [ngClass]="{'is-invalid': formRegister.get('cnpj_cpf').invalid && formRegister.get('cnpj_cpf').touched }"
+                >
+                <span class="custom-form-control-ripple-line"></span>
+                <div class="invalid-feedback" *ngIf="formRegister.get('cnpj_cpf').invalid  && formRegister.get('cnpj_cpf').touched">
+                    <div *ngIf="formRegister.get('cnpj_cpf').errors.required">Campo Obrigatório</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="razao_social">Razao Social</label>
+                <input type="razao_social"
+                formControlName="razao_social"
+                class="custom-form-control" id="razao_social" placeholder="Razão Social">
+                <span class="custom-form-control-ripple-line"></span>
+              </div>
+
+              <div class="form-group">
+                  <label for="name">Nome Completo</label>
+                  <input type="name"
+                  formControlName="name"
+                  class="custom-form-control form-control" id="name" placeholder="name@example.com"
+                  [ngClass]="{'is-invalid': formRegister.get('name').invalid && formRegister.get('name').touched }"
+                  >
+                  <span class="custom-form-control-ripple-line"></span>
+                  <div class="invalid-feedback" *ngIf="formRegister.get('name').invalid  && formRegister.get('name').touched">
+                      <div *ngIf="formRegister.get('name').errors?.required">Campo Obrigatório</div>
+
+                  </div>
+              </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email"
+              formControlName="email"
+              class="custom-form-control form-control" id="email" placeholder="name@example.com"
+              [ngClass]="{'is-invalid': formRegister.get('email').invalid && formRegister.get('email').touched }"
+              >
+              <span class="custom-form-control-ripple-line"></span>
+              <div class="invalid-feedback" *ngIf="formRegister.get('email').invalid  && formRegister.get('email').touched">
+                  <div *ngIf="formRegister.get('email').errors?.required">Campo Obrigatório</div>
+                  <div *ngIf="formRegister.get('email').errors?.email">E-mail não é válido.</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="senha">Senha</label>
+              <input type="password"
+              formControlName="password"
+              class="custom-form-control form-control"
+              [ngClass]="{'is-invalid': formRegister.get('password').invalid && formRegister.get('password').touched }" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" />
+
+              <span class="custom-form-control-ripple-line"></span>
+              <div class="invalid-feedback" *ngIf="formRegister.get('password').invalid  && formRegister.get('password').touched">
+                <div *ngIf="formRegister.get('password').errors?.required">Campo Obrigatório</div>
+                <div *ngIf="formRegister.get('password').errors?.pattern">Deve conter pelo menos um número e uma letra maiúscula e minúscula e pelo menos 8 ou mais caracteres.</div>
+              </div>
+            </div>
+            <div class="form-group">
+                <label for="confirme_password">Confirme a Senha</label>
+                <input type="password"
+                formControlName="confirm_password"
+                class="custom-form-control form-control"
+                pattern="{{ formRegister.get('password').value }}"
+                [ngClass]="{'is-invalid': formRegister.get('confirm_password').invalid && formRegister.get('confirm_password').touched }"
+                >
+                <span class="custom-form-control-ripple-line" ></span>
+                <div class="invalid-feedback" *ngIf="formRegister.get('confirm_password').invalid  && formRegister.get('confirm_password').touched">
+                    <div *ngIf="formRegister.get('confirm_password').errors.required">Confirme a Senha é obrigatório</div>
+                    <div *ngIf="formRegister.get('confirm_password').errors?.pattern">Senha e Confirmar Senha não coincidem.</div>
+                </div>
+            </div>
+            <div class="form-group">
+              <div class="d-flex">
+                  <button class="btn btn-primary" [disabled]="formRegister.invalid" >Registrar</button>
+                  <button class="ml-1 btn btn-outline-success" type="button" routerLink="/auth" >Já tenho uma conta</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div id="overlay" [ngStyle]="{'display': loading ? 'flex' : 'none'}">
+            <div class="w-100 d-flex justify-content-center align-items-center">
+              <div class="spinner"></div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

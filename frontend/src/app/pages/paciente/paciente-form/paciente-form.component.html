@@ -1,0 +1,90 @@
+<div class="page-wrapper">
+  <div class="content">
+      <div class="row">
+          <div class="col-lg-8 offset-lg-2">
+              <h4 class="page-title">{{ this.currentAction == 'edit' ?  'Editar' : 'Novo' }} Paciente</h4>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <form [formGroup]="resourceForm" (ngSubmit)="onSubmit()">
+               <div class="row">
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                          <label>Nome <span class="text-danger">*</span></label>
+                          <input class="form-control" type="text" formControlName="nome"
+                          [ngClass]="{
+                            'is-invalid':
+                              resourceForm.get('nome').invalid &&
+                              resourceForm.get('nome').touched
+                          }"
+                          >
+                          <div
+                          class="invalid-feedback"
+                          *ngIf="
+                            resourceForm.get('nome').invalid &&
+                            resourceForm.get('nome').touched
+                          "
+                          >
+                            <div *ngIf="resourceForm.get('nome').errors.required">
+                              Campo Obrigatório
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Cpf</label>
+                    <input class="form-control" mask="000.000.000-00" formControlName="cpf">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Telefone</label>
+                    <input class="form-control" mask="(00) 0000-0000" formControlName="telefone">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Celular</label>
+                    <input class="form-control" mask="(00) 00000-0000"  formControlName="celular">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Responsável</label>
+                    <input class="form-control" formControlName="responsavel">
+                  </div>
+                </div>
+
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label>Sexo <span class="text-danger">*</span></label>
+                    <select class="form-control" formControlName="sexo">
+                      <option selected value="M">Masculino</option>
+                      <option value="F">Feminino</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label>Ativo <span class="text-danger">*</span></label>
+                    <select class="form-control" formControlName="ativo">
+                      <option selected value="1">Sim</option>
+                      <option value="0">Não</option>
+                    </select>
+                  </div>
+                </div>
+                <br/>
+   
+                <div class="col-sm-12 m-t-20 text-center">
+                  <button class="btn btn-primary submit-btn" [disabled]="resourceForm.invalid">Salvar Paciente</button>
+                </div>
+               </div>
+            </form>
+        </div>
+      </div>        
+  </div>
+</div>

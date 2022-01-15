@@ -1,0 +1,132 @@
+<div class="page-wrapper">
+  <div class="content">
+      <div class="row">
+          <div class="col-lg-8 offset-lg-2">
+              <h4 class="page-title">{{ this.currentAction == 'edit' ?  'Editar' : 'Nova' }} Fatura</h4>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <form [formGroup]="resourceForm" (ngSubmit)="onSubmit()">
+               <div class="row">
+                <div class="col-sm-6">
+                <div class="from-group" formGroupName="paciente">
+                    <label>Paciente (Nome)</label>
+                    <div class="input-group mb-3">
+
+                      <input type="text" 
+                      class="form-control"
+                      placeholder="" 
+                      formControlName="nome"
+                      >
+                      <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="gerarModalPaciente()">
+                            <i class="fa fa-search"></i>
+                          </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Data Fatura <span class="text-danger">*</span></label>
+                    <input class="form-control"                     
+                    bsDatepicker
+                    [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                    formControlName="data_fatura">
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Data Vencimento <span class="text-danger">*</span></label>
+                    <input class="form-control"                     
+                    bsDatepicker
+                    [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                    formControlName="data_vencimento">
+                  </div>
+                </div>
+                
+                <div class="col-sm-12" >
+                  <button class="btn btn-primary mb-1" (click)="addFaturaDetalhe()"><i class="fa fa-plus"></i></button>
+                  <table class="table table-striped">
+                    <thead>
+                      <th>Descrição</th>
+                      <th>Valor Unitário</th>
+                      <th>Quantidade</th>
+                      <th>Valor Total</th>
+                      <th><i class="fa fa-gear"></i></th>
+                    </thead>
+                    <tbody >
+                      <ng-container formArrayName="lista_fatura_detalhe" 
+                      *ngFor="let item of lista_fatura_detalhe.controls; let i = index;">
+                        <tr [formGroupName]="i">                    
+                          <td>          
+                            <input class="form-control" 
+                            formControlName="descricao"
+                            [ngClass]="{
+                              'is-invalid':
+                                lista_fatura_detalhe.at(i).get('descricao').invalid
+                            }"
+                            >
+                          </td>
+                          <td>
+                            <input class="form-control"
+                            currencyMask 
+                            formControlName="valor_unitario"
+                            (keyup)="handleValorUnitario(i)"
+                            [ngClass]="{
+                              'is-invalid':
+                                lista_fatura_detalhe.at(i).get('valor_unitario').invalid
+                            }"
+                            >
+                          </td>
+                          <td>
+                            <input class="form-control" formControlName="qtde"
+                            (keyup)="handleQuantidade(i)"
+                            [ngClass]="{
+                              'is-invalid':
+                                lista_fatura_detalhe.at(i).get('qtde').invalid
+                            }"
+                            >
+                          </td>
+                          <td>
+                            <input readonly class="form-control" 
+                            currencyMask                     
+                            formControlName="valor_total">
+                          </td>
+                          <td>
+                            <button (click)="lista_fatura_detalhe.removeAt(i); atualizarValorFinal()" class="btn btn-link"><i class="fa fa-trash text-danger"></i></button>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody >
+
+                  </table>
+                </div>
+
+                <div class="col-sm-12 row justify-content-end">
+                  <div class="form-group mr-2">
+                    <label>Desconto (%)</label>
+                    <input class="form-control" (keyup)="atualizarValorFinal()" formControlName="desconto">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Total (R$)</label>
+                    <input readonly class="form-control" 
+                    currencyMask
+                    formControlName="valor_final">
+                  </div>
+                </div>
+
+                <br/>
+                <div class="col-sm-12 m-t-20 text-center">
+                  <button class="btn btn-primary submit-btn" [disabled]="resourceForm.invalid">Salvar Fatura</button>
+                </div>
+               </div>
+            </form>
+        </div>
+      </div>        
+  </div>
+</div>

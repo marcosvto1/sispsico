@@ -1,0 +1,228 @@
+<div class="page-wrapper">
+    <div class="content">
+      <div class="row">
+        <div class="col-lg-8 offset-lg-1">
+          <h4 class="page-title">{{ this.currentAction == 'edit' ?  'Editar' : 'Novo' }} Psicólogo</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-9 offset-lg-1">
+          <form [formGroup]="resourceForm" (ngSubmit)="onSubmit()">
+            <ul class="nav nav-tabs nav-tabs-top nav-justified">
+              <li class="nav-item"><a class="nav-link active" href="#top-justified-tab1" data-toggle="tab">Detalhes</a>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="#top-justified-tab2" data-toggle="tab">Contrato</a></li>
+            </ul>
+            <!-- TAB CONTENT -->
+            <div class="tab-content">
+              <div class="tab-pane show active" id="top-justified-tab1">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="from-group" formGroupName="usuario">
+                      <label>Usuário <span class="text-danger">*</span></label>
+                      <div class="input-group mb-3">
+  
+                        <input type="text" class="form-control" placeholder="" formControlName="nome" readonly [ngClass]="{
+                                                'is-invalid':
+                                                  resourceForm.get('usuario_id').invalid && resourceForm.get('usuario_id').touched
+                                              }">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                            (click)="gerarModalUsuarioPsicologo()">
+                            <i class="fa fa-search"></i>
+                          </button>
+                        </div>
+                        <div class="invalid-feedback" *ngIf="
+                                                resourceForm.get('usuario_id').invalid &&
+                                                resourceForm.get('usuario_id').touched
+                                              ">
+                          <div *ngIf="resourceForm.get('usuario_id').errors.required">
+                            Campo Obrigatório
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Código Interno do Atendente <span class="text-danger">*</span></label>
+                      <input class="form-control" type="text" maxlength="10" formControlName="codigo" [ngClass]="{
+                                                'is-invalid':
+                                                  resourceForm.get('codigo').invalid &&
+                                                  resourceForm.get('codigo').touched
+                                              }">
+                      <div class="invalid-feedback" *ngIf="
+                                                resourceForm.get('codigo').invalid &&
+                                                resourceForm.get('codigo').touched
+                                              ">
+                        <div *ngIf="resourceForm.get('codigo').errors.required">
+                          Campo Obrigatório
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>CRP <span class="text-danger">*</span></label>
+                      <input class="form-control" type="text" maxlength="20" formControlName="crp" [ngClass]="{
+                                                'is-invalid':
+                                                  resourceForm.get('crp').invalid &&
+                                                  resourceForm.get('crp').touched
+                                              }">
+                      <div class="invalid-feedback" *ngIf="
+                                                resourceForm.get('crp').invalid &&
+                                                resourceForm.get('crp').touched
+                                              ">
+                        <div *ngIf="resourceForm.get('crp').errors.required">
+                          Campo Obrigatório
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Especialidade <span class="text-danger">*</span></label>
+                      <input class="form-control" type="text" formControlName="especialidade" [ngClass]="{
+                                                'is-invalid':
+                                                  resourceForm.get('especialidade').invalid &&
+                                                  resourceForm.get('especialidade').touched
+                                              }">
+                      <div class="invalid-feedback" *ngIf="
+                                                resourceForm.get('especialidade').invalid &&
+                                                resourceForm.get('especialidade').touched
+                                              ">
+                        <div *ngIf="resourceForm.get('especialidade').errors.required">
+                          Campo Obrigatório
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label>Ativo</label>
+                      <select class="form-control" formControlName="ativo">
+                        <option value="1">Sim</option>
+                        <option value="0">Não</option>
+                      </select>
+                    </div>
+                  </div>
+  
+                </div>
+              </div>
+              <div class="tab-pane" id="top-justified-tab2" formGroupName="contrato_trabalho">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Matricula <span class="text-danger">*</span></label>
+                      <input class="form-control" maxlength="10" type="text" formControlName="matricula" [ngClass]="{
+                                            'is-invalid':
+                                              contratoTrabalho.get('matricula').invalid &&
+                                              contratoTrabalho.get('matricula').touched
+                                          }">
+                      <div class="invalid-feedback" *ngIf="
+                                              contratoTrabalho.get('matricula').invalid &&
+                                              contratoTrabalho.get('matricula').touched
+                                            ">
+                        <div *ngIf="contratoTrabalho.get('matricula').errors.required">
+                          Campo Obrigatório
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Data de Admissão <span class="text-danger">*</span></label>
+                      <input class="form-control" type="date" formControlName="data_admissao" [ngClass]="{
+                                          'is-invalid':
+                                            contratoTrabalho.get('data_admissao').invalid &&
+                                            contratoTrabalho.get('data_admissao').touched
+                                        }">
+                      <div class="invalid-feedback" *ngIf="
+                                            contratoTrabalho.get('data_admissao').invalid &&
+                                            contratoTrabalho.get('data_admissao').touched
+                                          ">
+                        <div *ngIf="contratoTrabalho.get('data_admissao').errors.required">
+                          Campo Obrigatório
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Data de Demissão </label>
+                      <input class="form-control" type="date" formControlName="data_demissao">
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Data de Cadastro <span class="text-danger">*</span></label>
+                      <input class="form-control" type="date" formControlName="data_cadastro" [ngClass]="{
+                                          'is-invalid':
+                                            contratoTrabalho.get('data_cadastro').invalid &&
+                                            contratoTrabalho.get('data_cadastro').touched
+                                        }">
+                      <div class="invalid-feedback" *ngIf="
+                                            contratoTrabalho.get('data_cadastro').invalid &&
+                                            contratoTrabalho.get('data_cadastro').touched
+                                          ">
+                        <div *ngIf="contratoTrabalho.get('data_cadastro').errors.required">
+                          Campo Obrigatório
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>Observação</label>
+                      <textarea class="form-control"></textarea>
+                    </div>
+                  </div>
+  
+                  <div class="card col-md-12 p-2 text-primary">Carteira de Trabalho</div>
+  
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label>Número</label>
+                      <input class="form-control" type="text" maxlength="10" formControlName="ctps_numero">
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label>Série</label>
+                      <input class="form-control" type="text" maxlength="10" formControlName="ctps_serie">
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label>Data Expedição</label>
+                      <input class="form-control" type="date" formControlName="ctps_data_expedicao">
+                    </div>
+                  </div>
+  
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label>UF</label>
+                      <input class="form-control" type="text" maxlength="2" formControlName="ctps_uf">
+                    </div>
+                  </div>
+  
+                </div>
+              </div>
+            </div>
+            <!-- END TAB CONTENT-->
+            <br/>
+            <div class="col-sm-12 m-t-20 text-center">
+              <button class="btn btn-primary submit-btn" [disabled]="resourceForm.invalid">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

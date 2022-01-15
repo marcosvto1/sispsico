@@ -1,0 +1,93 @@
+<div class="page-wrapper">
+  <div class="content">
+      <div class="row">
+          <div class="col-sm-4 col-3">
+              <h4 class="page-title">Relação de Usuário</h4>
+          </div>
+          <div class="col-sm-8 col-9 text-right m-b-20">
+              <button routerLink="add" class="btn btn-primary float-right btn-rounded"><i class="fa fa-plus"></i> Novo</button>
+          </div>
+      </div>
+      <div class="row filter-row">
+        <div class="col-sm-6 col-md-4">
+            <div class="form-group form-focus select-focus">
+                <label class="focus-label">Coluna</label>
+                <select class="form-control floating" [(ngModel)]="filtro.campo">
+                  <option [value]="item" *ngFor="let item of campos">{{
+                    item
+                  }}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+          <div class="form-group form-focus">
+              <label class="focus-label">Valor</label>
+              <input type="text" class="form-control" 
+              [(ngModel)]="filtro.valor"
+              >
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+            <button class="btn btn-success btn-block" (click)="filtrar()"> Filtrar </button>
+        </div>    
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-striped custom-table" >
+                <thead>
+                    <tr>
+                        <th style="min-width:200px;">Nome</th>
+                        <th>id</th>
+                        <th>Email</th>
+                        <th>Usuário</th>
+                        <th>Papel</th>
+                        <th>Ativo</th>
+                        <th>Administrador</th>
+                        <th class="text-right">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of listaResource" >
+                    <td>{{ item.nome }}</td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.usuario }}</td>
+                    <td>
+                      <span *ngIf="item.papel == 'P'">Psicólogo</span>
+                      <span *ngIf="item.papel == 'S'">Secretária</span>
+                    </td>
+
+                    <td>
+                      <span *ngIf="item.ativo === 1" class="custom-badge status-green">Sim</span>
+                      <span *ngIf="item.ativo === 0" class="custom-badge status-red">Não</span>
+                    </td>
+
+                    <td>
+                      <span *ngIf="item.admin === 1" class="custom-badge status-blue">Sim</span>
+                      <span *ngIf="item.admin === 0" class="custom-badge status-orange">Não</span>
+                    </td>
+                  
+                    <td class="text-right">
+                      <div class="dropdown dropdown-action">
+                          <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                          <div class="dropdown-menu dropdown-menu-right">
+                              <a class="dropdown-item" [routerLink]="[item.id, 'edit']"
+                          ><i class="fa fa-pencil m-r-5"></i> Editar</a>
+                              <a class="dropdown-item" (click)="remove(item.id)" data-toggle="modal" data-target="#delete_employee"><i class="fa fa-trash-o m-r-5"></i> Remover</a>
+                          </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+            <app-paginate *ngIf="total > 0" [type]="'list'" [page]="page" [total]="total" (pageChanged)="pageChanged($event)" ></app-paginate>
+
+          </div>
+        </div>
+      </div>
+  </div>
+</div>      
